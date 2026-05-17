@@ -21,12 +21,12 @@
             background-color: var(--bg-color);
             color: var(--text-primary);
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            font-family: 'Noto Serif TC', serif; /* 預設古風字體 */
+            overflow-x: hidden;
+            font-family: 'Noto Serif TC', serif;
         }
 
         /* === 背景裝飾：呼吸圓環 === */
@@ -50,12 +50,12 @@
         .container {
             position: relative;
             display: flex;
-            flex-direction: row-reverse; /* 右邊簡介，左邊功能 */
+            flex-direction: row-reverse;
             gap: 5rem;
             padding: 2rem;
             max-width: 1000px;
-            height: 70vh;
-            border-right: 1px solid var(--tech-dim); /* 右側裝飾線 */
+            min-height: 70vh;
+            border-right: 1px solid var(--tech-dim);
         }
 
         /* === 右側：個人靈魂區 (直排) === */
@@ -114,35 +114,41 @@
             min-width: 300px;
         }
 
-        /* --- 新增：Terminal 風格 ID 展示 --- */
+        /* --- Terminal 風格 ID 展示 --- */
         .terminal-id {
             font-family: 'Space Mono', monospace;
-            font-size: 1.1rem;
-            color: var(--text-primary);
+            font-size: 0.9rem;
             margin-bottom: 1.5rem;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            flex-direction: column;
+            gap: 0.3rem;
             opacity: 0.9;
+        }
+
+        .terminal-line {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
         }
 
         .prompt {
             color: var(--accent-color);
             font-weight: bold;
-            font-size: 0.9rem;
             opacity: 0.8;
+            white-space: nowrap;
         }
 
-        .user-id {
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 0 0 8px rgba(224, 224, 224, 0.2);
+        .cmd {
+            color: var(--text-dim);
         }
+
 
         .cursor {
             color: var(--accent-color);
             animation: blink-cursor 1s step-end infinite;
             font-weight: bold;
+            font-size: 0.9rem;
+            margin-left: 2px;
         }
 
         @keyframes blink-cursor {
@@ -203,6 +209,10 @@
             position: relative;
         }
 
+        .achievements-box + .achievements-box {
+            margin-top: 1.5rem;
+        }
+
         .log-title {
             font-family: 'Space Mono', monospace;
             font-size: 0.75rem;
@@ -245,10 +255,20 @@
             color: var(--text-primary);
         }
 
-        .log-year {
-            color: var(--tech-dim);
-            font-size: 0.75rem;
-            min-width: 35px;
+        .log-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            border: 1px solid var(--tech-dim);
+            padding: 1px 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .log-item:hover .log-tag {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
         }
 
         .rank-highlight {
@@ -261,13 +281,15 @@
 
         /* === 手機版適配 === */
         @media (max-width: 768px) {
+            body {
+                align-items: flex-start;
+            }
             .container {
                 flex-direction: column;
-                height: auto;
+                min-height: unset;
                 border-right: none;
                 gap: 3rem;
-                padding-top: 4rem;
-                padding-bottom: 4rem;
+                padding: 4rem 1.5rem;
             }
             .profile-section {
                 writing-mode: horizontal-tb;
@@ -286,11 +308,9 @@
                 padding-top: 0;
                 margin-right: 0;
             }
-            .seal { display: none; } /* 手機版隱藏印章 */
-            
+            .seal { display: none; }
             .left-panel {
                 width: 100%;
-                gap: 2rem;
             }
             .achievements-box {
                 border-left: none;
@@ -299,7 +319,10 @@
                 padding-top: 1.5rem;
             }
             .terminal-id {
-                justify-content: center; /* 手機版 ID 置中 */
+                align-items: center;
+            }
+            .prompt {
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -314,7 +337,7 @@
             <h1>仍未迷途 仍為迷途</h1>
             
             <div class="bio">
-                虛實之間。記錄與分享。<br>
+                迷途之羊<br>
                 </div>
 
             <div class="seal">參</div>
@@ -323,8 +346,10 @@
         <div class="left-panel">
             
             <div class="terminal-id">
-                <span class="prompt">root@portal:~$</span>
-                <span class="user-id">Zergling73</span><span class="cursor">_</span>
+                <div class="terminal-line">
+                    <span class="prompt">zergling73@portal:~$</span>
+                    <span class="cmd">whoami</span><span class="cursor">_</span>
+                </div>
             </div>
             
             <div class="links-group">
@@ -343,16 +368,38 @@
                 <div class="log-title">SYSTEM_LOGS // AWARDS</div>
                 <ul class="log-list">
                     <li class="log-item">
-                        <span class="log-year">[24]</span>
-                        <span>2025 神盾盃決賽 <span class="rank-highlight">Rank.7</span></span>
+                        <span class="log-tag">'26</span>
+                        <span>MyFirstCTF <span class="rank-highlight">rk.20</span></span>
                     </li>
                     <li class="log-item">
-                        <span class="log-year">[23]</span>
-                        <span>中電會 <span class="rank-highlight">第三屆活動組</span></span>
+                        <span class="log-tag">'25</span>
+                        <span>神盾盃資安競賽 決賽 <span class="rank-highlight">rk.7</span></span>
                     </li>
                     <li class="log-item">
-                        <span class="log-year">[22]</span>
-                        <span>APCS <span class="rank-highlight">3 3</span></span>
+                        <span class="log-tag">'24</span>
+                        <span>仰望盃 決賽 <span class="rank-highlight">優等獎</span></span>
+                    </li>
+                    <li class="log-item">
+                        <span class="log-tag">'22</span>
+                        <span>APCS <span class="rank-highlight">3-3</span></span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="achievements-box">
+                <div class="log-title">SYSTEM_LOGS // EXPERIENCE</div>
+                <ul class="log-list">
+                    <li class="log-item">
+                        <span class="log-tag">'26</span>
+                        <span>逢甲大學黑客社 <span class="rank-highlight">12th 儲備網管</span></span>
+                    </li>
+                    <li class="log-item">
+                        <span class="log-tag">'24</span>
+                        <span>中電會 <span class="rank-highlight">第三屆-活動組</span></span>
+                    </li>
+                    <li class="log-item">
+                        <span class="log-tag">'24</span>
+                        <span>SITCON <span class="rank-highlight">會眾</span></span>
                     </li>
                 </ul>
             </div>
